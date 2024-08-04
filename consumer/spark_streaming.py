@@ -4,7 +4,6 @@ from pyspark.sql.protobuf.functions import from_protobuf
 import os
 
 os.environ['PYSPARK_SUBMIT_ARGS'] = (
-    '--conf spark.hadoop.native.lib=false '
     '--packages '
     'org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.1,'
     'org.apache.kafka:kafka-clients:3.4.0,'
