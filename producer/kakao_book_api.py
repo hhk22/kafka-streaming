@@ -6,9 +6,11 @@ import time
 from dotenv import load_dotenv
 
 package_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(package_path)
 
 from confluent_kafka import Producer
-import proto.book_data_pb2 as pb2
+from proto import book_data_pb2 as pb2
+# import proto.book_data_pb2 as pb2
 from keywords import book_keywords
 
 load_dotenv()

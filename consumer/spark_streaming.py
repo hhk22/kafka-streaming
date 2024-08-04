@@ -1,6 +1,20 @@
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
 from pyspark.sql.protobuf.functions import from_protobuf
+import os
+
+os.environ['PYSPARK_SUBMIT_ARGS'] = (
+    '--conf spark.hadoop.native.lib=false '
+    '--packages '
+    'org.apache.spark:spark-sql-kafka-0-10_2.12:3.4.1,'
+    'org.apache.kafka:kafka-clients:3.4.0,'
+    'org.apache.spark:spark-streaming_2.12:3.4.1,'
+    'org.apache.spark:spark-token-provider-kafka-0-10_2.12:3.4.1,'
+    'org.apache.commons:commons-pool2:2.11.1,'
+    'org.apache.spark:spark-protobuf_2.12:3.4.1 '
+    'pyspark-shell'
+)
+
 
 if __name__ == '__main__':
     ss: SparkSession = SparkSession.builder \
@@ -15,7 +29,7 @@ if __name__ == '__main__':
         .format("kafka") \
         .option("startingOffsets", "earliest") \
         .option("subscribe", "book") \
-        .option("kafka.bootstrap.servers", "localhost:22181") \
+        .option("kafka.bootstrap.servers", "localhost:29092") \
         .load() \
         .select(from_protobuf("value", "Book", proto_desc_path).alias("book")) \
         .withColumn("title", F.col("book.title")) \
